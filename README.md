@@ -55,6 +55,8 @@ Rails releases. That said, Lograge _should_ work with older releases.
   - JRuby: HEAD, 9.2, 9.1
   - TruffleRuby: HEAD, 21.3
 
+Lograge doesn't work on Ruby 2.5 or older.
+
 ## Installation ##
 
 In your Gemfile
