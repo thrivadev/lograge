@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
 
   s.metadata = { 'rubygems_mfa_required' => 'true' }
 
-  # NOTE(ivy): Ruby version 2.5 is the oldest syntax supported by Rubocop.
   s.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   s.files = `git ls-files lib LICENSE.txt`.split("\n")
@@ -25,7 +24,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'actionpack',    '>= 4'
   s.add_runtime_dependency 'activesupport', '>= 4'
-  s.add_runtime_dependency 'ddtrace',       '~> 0.51'
+  s.add_runtime_dependency 'ddtrace',       '~> 1.1'
   s.add_runtime_dependency 'railties',      '>= 4'
   s.add_runtime_dependency 'request_store', '~> 1.0'
 end

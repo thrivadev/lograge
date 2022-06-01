@@ -48,7 +48,7 @@ module Lograge
         # See https://docs.datadoghq.com/tracing/connect_logs_and_traces/ruby/#manual-injection
 
         # Retrieves trace information for current thread
-        correlation = ::Datadog.tracer.active_correlation
+        correlation = ::Datadog::Tracing.correlation
 
         {
           # Adds IDs as tags to log output
