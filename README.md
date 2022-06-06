@@ -63,7 +63,7 @@ In your Gemfile
 
 ```ruby
 # Specify the latest release tag
-gem 'lograge', git: 'https://github.com/thrivadev/lograge.git', tag: 'v1.0.0' 
+gem 'lograge', git: 'https://github.com/thrivadev/lograge.git', tag: 'v1.1.0' 
 ```
 
 Enable it in an initializer or the relevant environment config:
