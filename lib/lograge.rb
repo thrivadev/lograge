@@ -97,6 +97,9 @@ module Lograge
   mattr_accessor :log_level
   self.log_level = :info
 
+  mattr_accessor :log_request_params
+  self.log_request_params = false
+
   # The emitted log format
   #
   # Currently supported formats are>

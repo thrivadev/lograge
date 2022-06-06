@@ -18,18 +18,28 @@ module Lograge
 
       private
 
+      # rubocop:disable Metrics/MethodLength
       def initial_data(payload)
         initial_data = {
-          message: "#{payload[:method]} #{extract_path(payload)}",
           controller: payload[:controller],
           action: payload[:action],
           timestamp: Time.now.utc.iso8601(3)
         }
 
+        if Lograge.log_request_params == true
+          request_params = payload[:params].except(:controller, :action).tap(&:deep_stringify_keys!)
+
+          initial_data[:message] = "#{payload[:method]} #{extract_path(payload)} params=#{request_params}"
+          initial_data[:params] = request_params
+        else
+          initial_data[:message] = "#{payload[:method]} #{extract_path(payload)}"
+        end
+
         initial_data.deep_merge!(extract_request_details(payload))
         initial_data.deep_merge!(extract_client_ip(payload))
         initial_data
       end
+      # rubocop:enable Metrics/MethodLength
 
       def extract_request_details(payload)
         # https://docs.datadoghq.com/logs/log_configuration/attributes_naming_convention/#http-requests

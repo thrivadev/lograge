@@ -287,18 +287,19 @@ describe Lograge::LogSubscribers::ActionController do
   end
 
   context 'with before_format configured for lograge output' do
-    before do
+    after do
       Lograge.before_format = nil
     end
 
     it 'outputs correctly' do
-      Lograge.before_format = ->(data, payload) { Hash[*data.first].merge(Hash[*payload.first]) }
+      Lograge.before_format = ->(_data, _payload) { { new_key: 1 } }
 
       subscriber.process_action(event)
 
-      expect(log_output[:message]).to eq('GET /home')
-      expect(log_output[:status]).to eq(200)
+      expect(log_output[:new_key]).to eq(1)
+      expect(log_output[:controller]).to be_nil
     end
+
     it 'works if the method returns nil' do
       Lograge.before_format = ->(_data, _payload) {}
 
@@ -368,6 +369,24 @@ describe Lograge::LogSubscribers::ActionController do
       Lograge.ignore nil
       subscriber.process_action(event)
       expect(log_output).not_to be_empty
+    end
+  end
+
+  context 'with log_request_params enabled' do
+    around(:each) do |test|
+      Lograge.log_request_params = true
+      test.run
+      Lograge.log_request_params = false
+    end
+
+    it 'adds the request params to the fulltext message' do
+      subscriber.process_action(event)
+      expect(log_output[:message]).to eq('GET /home params={"foo"=>"bar"}')
+    end
+
+    it 'adds the request params to the log entry' do
+      subscriber.process_action(event)
+      expect(log_output[:params]).to eq({ foo: 'bar' })
     end
   end
 
